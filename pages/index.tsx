@@ -3,24 +3,31 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Header from '../components/Header'
 import { useActiveListings,
+  useListings,
    useContract ,
     MediaRenderer
   } from '@thirdweb-dev/react'
 import { ListingType } from '@thirdweb-dev/sdk'
 import { BanknotesIcon, ClockIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 const Home: NextPage = () => {
   const {contract} = useContract(process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT, 'marketplace')
-  const { data: listings, isLoading: loadingListings} = useActiveListings(contract);
+  const { data: listings, isLoading: loadingListings} = useListings(contract);
   return (
     <div>
   <Header/>
   
     <main className='max-w-6xl mx-auto py-2 px-6'>
-      {loadingListings ? <p className='text-center animate-pulse text-blue-500'>
+      {loadingListings ? ( <p className='text-center animate-pulse text-blue-500'>
         Loading Listings...</p>
-         : <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mx-auto'>
+        ) : ( <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mx-auto'>
           {listings?.map(listing =>(
-            <div className='flex flex-col card hover:scale-105 transition-all duration-105 ease-out' key={listing.id}>
+            <Link 
+            key={listing.id} 
+            href={`/listing/${listing.id}`}
+            className='flex flex-col card hover:scale-105 transition-all duration-105 ease-out'
+            >
+            <div>
               <div className='flex-1 flex flex-col pb-2 items-center'>
                 <MediaRenderer className='w-44' src={listing.asset.image}/>
                 </div>
@@ -42,23 +49,24 @@ const Home: NextPage = () => {
                      rounded-lg text-white ${listing.type === ListingType.Direct ? 'bg-blue-500': "bg-red-500" } ` }
                      >
                       <p>
-                        {listing.type === ListingType.Direct ? "Buy Now" : "Auction"}
+                        { listing.type === ListingType.Direct ? "Buy Now" : "Auction"}
                         </p>
-                        {listing.type === ListingType.Direct ? (
+                        { listing.type === ListingType.Direct ? (
                           <BanknotesIcon className='h-4'/> ) : <ClockIcon className='h-4'/>
                         }
                       
-                      </div>
+                  </div>
                 </div>
-
               </div>
-          ))}
-          </div>
+            </Link>
+          ))} 
+          </div>  
+          )
           }
     </main>
 
     </div>
-      )
-}
+      );
+};
 
 export default Home

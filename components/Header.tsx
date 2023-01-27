@@ -28,7 +28,7 @@ function Header({}: Props) {
         <p className='headerLink'>Ship to</p>
         <p className='headerLink'>Sell</p>
         <p className='headerLink'>Watchlist</p>
-        <Link href='/addItem' className='flex items-center hover:link'>Add to inventory
+        <Link href='/addItems' className='flex items-center hover:link'>Add to inventory
         <ChevronDownIcon className='h-4'/>
         </Link>
    <BellIcon className='h-6 w-6'/>
@@ -56,7 +56,7 @@ function Header({}: Props) {
           <input className='flex-1 outline-none' placeholder='Search for Anything' type='text'/>
         </div>
         <button className='hidden sm:inline bg-blue-600 text-white px-5 md:px-10 py-2 border-2 border-blue-600'>Search</button>
-        <Link href='/create' >
+        <Link href='/createListing' >
         <button className='border-2 border-blue-600 px-5 md:px-10 py-2 text-blue-600 hover:bg-blue-600/50 hover:text-white cursor-pointer'>List Item</button>
         </Link>
       </section>
